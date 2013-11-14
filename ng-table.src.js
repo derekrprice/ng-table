@@ -555,6 +555,11 @@ app.directive('ngTable', ['$compile', '$q', '$parse',
                             scope.hide_sortable = value;
                         });
                     }
+                    if (attrs.hidePagination) {
+                        scope.$parent.$watch(attrs.hidePagination, function (value) {
+                            scope.hide_pagination = value;
+                        });
+                    }
                     angular.forEach(columns, function (column) {
                         var def;
                         if (!column.filterData) {
@@ -584,7 +589,7 @@ app.directive('ngTable', ['$compile', '$q', '$parse',
                             pagination: (attrs.templatePagination ? attrs.templatePagination : 'ng-table/pager.html')
                         };
                         var headerTemplate = thead.length > 0 ? thead : angular.element(document.createElement('thead')).attr('ng-include', 'templates.header');
-                        var paginationTemplate = angular.element(document.createElement('div')).attr('ng-include', 'templates.pagination');
+                        var paginationTemplate = angular.element(document.createElement('div')).attr('ng-include', 'templates.pagination').attr('ng-show', '!hide_pagination');
                         element.find('thead').remove();
                         var tbody = element.find('tbody');
                         element.prepend(headerTemplate);
